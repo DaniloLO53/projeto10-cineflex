@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
 
@@ -9,9 +9,9 @@ function App() {
       <StyledHeader>
         CINEFLEX
       </StyledHeader>
-      <Router>
+      <Routes>
         <Route path="/" element={<Home />} />
-      </Router>
+      </Routes>
     </StyledAppContainer>
   );
 }
