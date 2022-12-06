@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
+import Session from './Session';
 import Sessions from './Sessions';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sessoes/:idFilme" element={<Sessions />} />
+        <Route path="/assentos/:idSessao" element={<Session />} />
       </Routes>
     </StyledAppContainer>
   );

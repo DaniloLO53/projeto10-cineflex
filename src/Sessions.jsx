@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -52,7 +52,14 @@ function Sessions() {
           </StyledDate>
           <StyledTime>
             {showtimes.map(({ name, id: idTime }) => (
-              <StyledTimeButton type="button" key={idTime}>{name}</StyledTimeButton>
+              <Link to={`/assentos/${idTime}`}>
+                <StyledTimeButton
+                  type="button"
+                  key={idTime}
+                >
+                  {name}
+                </StyledTimeButton>
+              </Link>
             ))}
           </StyledTime>
         </StyledSession>
