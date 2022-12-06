@@ -33,6 +33,9 @@ function Sessions() {
 
   return (
     <StyledSessions>
+      <p>
+        Selecione o horário
+      </p>
       {(sessions?.days || []).map(({
         id,
         weekday,
@@ -49,7 +52,7 @@ function Sessions() {
           </StyledDate>
           <StyledTime>
             {showtimes.map(({ name, id: idTime }) => (
-              <button type="button" key={idTime}>{name}</button>
+              <StyledTimeButton type="button" key={idTime}>{name}</StyledTimeButton>
             ))}
           </StyledTime>
         </StyledSession>
@@ -58,24 +61,39 @@ function Sessions() {
   );
 }
 
+const StyledTimeButton = styled.button`
+  background-color: #e8833a;
+  border: none;
+  border-radius: 3px;
+  margin: 5px;
+  color: white;
+  padding: 15px;
+`;
+
 const StyledSessions = styled.div`
-  background-color: red;
+  p {
+    padding: 15px;
+    text-align: center;
+  }
   width: 100%;
 `;
 
 const StyledSession = styled.div`
-  background-color: green;
+  /* background-color: green; */
   width: 100%;
 `;
 
 const StyledDate = styled.div`
-  background-color: purple;
+  /* background-color: purple; */
   width: 100%;
+  padding: 15px;
 `;
 
 const StyledTime = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
   width: 100%;
+  padding: 10px;
+  display: flex;
 `;
 
 export default Sessions;
