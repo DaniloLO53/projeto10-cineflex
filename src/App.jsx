@@ -1,5 +1,7 @@
 import React from 'react';
+import { Route, Router } from 'react-router-dom';
 import styled from 'styled-components';
+import Home from './Home';
 
 function App() {
   return (
@@ -7,6 +9,9 @@ function App() {
       <StyledHeader>
         CINEFLEX
       </StyledHeader>
+      <Router>
+        <Route path="/" element={<Home />} />
+      </Router>
     </StyledAppContainer>
   );
 }
