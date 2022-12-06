@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
+import Sessions from './Sessions';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       </StyledHeader>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/sessoes/:idFilme" element={<Sessions />} />
       </Routes>
     </StyledAppContainer>
   );

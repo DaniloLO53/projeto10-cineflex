@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [movies, setMovies] = useState(null);
@@ -35,9 +36,11 @@ function Home() {
           key={id}
           type="button"
         >
-          <figure>
-            <img alt={title} src={posterURL} />
-          </figure>
+          <Link to="/sessoes/:idFilme">
+            <figure>
+              <img alt={title} src={posterURL} />
+            </figure>
+          </Link>
         </StyledButton>
       ))}
     </StyledMovies>
