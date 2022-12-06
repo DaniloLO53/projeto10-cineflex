@@ -36,7 +36,7 @@ function Home() {
           key={id}
           type="button"
         >
-          <Link to="/sessoes/:idFilme">
+          <Link to={`/sessoes/${id}`}>
             <figure>
               <img alt={title} src={posterURL} />
             </figure>
