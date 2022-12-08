@@ -101,17 +101,41 @@ function Session({ finalInfos, setFinalInfos }) {
         setFinalInfos={setFinalInfos}
         finalInfos={finalInfos}
       />
-      <button
+      <StyledButton
         type="button"
         onClick={handleClick}
       >
         <Link to="/sucesso">
           Reservar assento(s)
         </Link>
-      </button>
+      </StyledButton>
     </StyledSession>
   );
 }
+
+const StyledButton = styled.button`
+  width: 200px;
+  position: absolute;
+  left: 50%;
+  padding: 15px 10px 15px 10px;
+  font-size: 18px;
+  margin-top: 40px;
+  border-radius: 5px;
+  border: none;
+  background-color:  #E8833A;
+  color: white;
+  transform: translate(-50%);
+
+  & a {
+    text-decoration: none;
+    color: white;
+  }
+
+  &:visited {
+    text-decoration: none;
+    color: white;
+  }
+`;
 
 const StyledSubs = styled.div`
   background-color: red;
@@ -184,6 +208,7 @@ const StyledSession = styled.div`
   /* background-color: red; */
   padding: 10px;
   text-align: center;
+  position: relative;
   
   & > p, & div > p {
     font-size: 24px;

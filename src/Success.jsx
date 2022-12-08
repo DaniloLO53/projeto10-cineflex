@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 function Success({ finalInfos, setFinalInfos }) {
   const {
@@ -50,6 +51,14 @@ function Success({ finalInfos, setFinalInfos }) {
         </p>
       </div>
 
+      <StyledButton
+        type="button"
+      >
+        <Link to="/">
+          Voltar para Home
+        </Link>
+      </StyledButton>
+
     </StyledSuccess>
   );
 }
@@ -69,6 +78,30 @@ const StyledSuccess = styled.div`
     /* background-color: green; */
     padding: 15px;
     font-size: 20px;
+  }
+`;
+
+const StyledButton = styled.button`
+  width: 200px;
+  position: relative;
+  left: 50%;
+  padding: 15px 10px 15px 10px;
+  font-size: 18px;
+  margin-top: 60px;
+  border-radius: 5px;
+  border: none;
+  background-color:  #E8833A;
+  color: white;
+  transform: translate(-50%);
+
+  & a {
+    text-decoration: none;
+    color: white;
+  }
+
+  &:visited {
+    text-decoration: none;
+    color: white;
   }
 `;
 
