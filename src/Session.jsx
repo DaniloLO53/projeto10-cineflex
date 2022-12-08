@@ -70,12 +70,12 @@ function Session({ finalInfos, setFinalInfos }) {
         {seats.map(({ id, name, isAvailable }) => (
           <StyledSeat
             key={id}
-            color={String(finalInfos.seats.includes(id))}
+            color={String(finalInfos.seats.some((infos) => infos[0] === id))}
             disabled={!isAvailable}
             onClick={() => setFinalInfos((prevState) => (
               {
                 ...prevState,
-                seats: [...prevState.seats, id],
+                seats: [...prevState.seats, [id, name]],
               }
             ))}
           >

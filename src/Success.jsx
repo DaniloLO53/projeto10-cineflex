@@ -24,11 +24,11 @@ function Success({ finalInfos, setFinalInfos }) {
 
       <div>
         <h3>Ingressos</h3>
-        {seats.map((number) => (
-          <p key={number}>
+        {seats.map((info) => (
+          <p key={info[0]}>
             Assento
             {' '}
-            {number}
+            {info[1]}
             {' '}
           </p>
         ))}
@@ -57,6 +57,19 @@ function Success({ finalInfos, setFinalInfos }) {
 const StyledSuccess = styled.div`
   display: flex;
   flex-direction: column;
+
+  & h1 {
+    /* background-color: red; */
+    text-align: center;
+    padding: 10px 150px 10px 150px;
+    color: green;
+  }
+
+  & div {
+    /* background-color: green; */
+    padding: 15px;
+    font-size: 20px;
+  }
 `;
 
 Success.propTypes = {
