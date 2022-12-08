@@ -3,11 +3,35 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import Form from './Form';
 
 function Session() {
   const { idSessao } = useParams();
-  const [session, setSession] = useState(null);
   const [seats, setSeats] = useState([]);
+  const [finalInfos, setFinalInfos] = useState({
+    movie: '',
+    date: '',
+    time: '',
+    seats: [],
+    client: '',
+    cpf: '',
+  });
+
+  const handleClick = () => {
+    const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
+    const { seats: ids, client: name, cpf } = finalInfos;
+    const payload = {
+      ids,
+      name,
+      cpf,
+    };
+
+    try {
+      axios.post(URL, payload);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
 
   useEffect(() => {
     const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
@@ -17,7 +41,20 @@ function Session() {
     const fetchSession = async () => {
       try {
         const sessionInfo = await axios(URL, { signal });
-        setSession(sessionInfo);
+        setSeats(sessionInfo.data.seats);
+        setFinalInfos(() => {
+          const { data } = sessionInfo;
+          const { day, movie, name } = data;
+
+          return ({
+            movie: movie.title,
+            date: day.date,
+            time: name,
+            seats: [],
+            client: '',
+            cpf: '',
+          });
+        });
       } catch (error) {
         console.log(error.message);
         throw new Error(error);
@@ -31,18 +68,23 @@ function Session() {
     };
   }, []);
 
-  console.log(session, seats);
+  console.log(finalInfos, seats);
 
   return (
     <StyledSession>
       <p>Selecione o(s) assentos</p>
       <StyledSeats>
-        {session?.data.seats.map(({ id, name, isAvailable }) => (
+        {seats.map(({ id, name, isAvailable }) => (
           <StyledSeat
             key={id}
-            color={seats.includes(name)}
+            color={String(finalInfos.seats.includes(id))}
             disabled={!isAvailable}
-            onClick={() => setSeats((prevState) => [...prevState, name])}
+            onClick={() => setFinalInfos((prevState) => (
+              {
+                ...prevState,
+                seats: [...prevState.seats, id],
+              }
+            ))}
           >
             {name.length > 1 ? name : `0${name}`}
           </StyledSeat>
@@ -62,6 +104,16 @@ function Session() {
           <p>Indisponível</p>
         </div>
       </StyledSubs>
+      <Form
+        setFinalInfos={setFinalInfos}
+        finalInfos={finalInfos}
+      />
+      <button
+        type="button"
+        onClick={handleClick}
+      >
+        Reservar assento(s)
+      </button>
     </StyledSession>
   );
 }
@@ -123,7 +175,7 @@ const StyledSeats = styled.div`
 const StyledSeat = styled.button`
   background-color: ${({ color, disabled }) => {
     if (disabled) return '#fbe192';
-    if (color) return '#1aae9e';
+    if (color === 'true') return '#1aae9e';
     return '#c3cfd9';
   }};
   text-align: center;
@@ -138,10 +190,14 @@ const StyledSession = styled.div`
   padding: 10px;
   text-align: center;
   
-  p {
+  & > p, & div > p {
     font-size: 24px;
-    /* background-color: green; */
+    /* background-color: yellow; */
     margin: 30px 0 30px 0;
+  }
+
+  & div > p {
+    font-size: 18px;
   }
 `;
 
