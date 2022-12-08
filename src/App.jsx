@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
 import Session from './Session';
 import Sessions from './Sessions';
+import Success from './Success';
 
 function App() {
+  const [finalInfos, setFinalInfos] = useState({
+    movie: '',
+    date: '',
+    time: '',
+    seats: [],
+    client: '',
+    cpf: '',
+  });
+
   return (
     <StyledAppContainer>
       <StyledHeader>
@@ -14,7 +24,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sessoes/:idFilme" element={<Sessions />} />
-        <Route path="/assentos/:idSessao" element={<Session />} />
+        <Route
+          path="/assentos/:idSessao"
+          element={
+            <Session finalInfos={finalInfos} setFinalInfos={setFinalInfos} />
+          }
+        />
+        <Route
+          path="/sucesso"
+          element={<Success finalInfos={finalInfos} setFinalInfos={setFinalInfos} />}
+        />
       </Routes>
     </StyledAppContainer>
   );

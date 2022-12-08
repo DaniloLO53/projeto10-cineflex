@@ -1,21 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Form from './Form';
 
-function Session() {
+function Session({ finalInfos, setFinalInfos }) {
   const { idSessao } = useParams();
   const [seats, setSeats] = useState([]);
-  const [finalInfos, setFinalInfos] = useState({
-    movie: '',
-    date: '',
-    time: '',
-    seats: [],
-    client: '',
-    cpf: '',
-  });
 
   const handleClick = () => {
     const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
@@ -112,7 +105,9 @@ function Session() {
         type="button"
         onClick={handleClick}
       >
-        Reservar assento(s)
+        <Link to="/sucesso">
+          Reservar assento(s)
+        </Link>
       </button>
     </StyledSession>
   );
@@ -200,5 +195,17 @@ const StyledSession = styled.div`
     font-size: 18px;
   }
 `;
+
+Session.propTypes = {
+  finalInfos: PropTypes.shape(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+  ).isRequired,
+  setFinalInfos: PropTypes.func.isRequired,
+};
 
 export default Session;
