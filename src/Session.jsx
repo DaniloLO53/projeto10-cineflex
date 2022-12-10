@@ -5,8 +5,9 @@ import axios from 'axios';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Form from './Form';
+import Footer from './Footer';
 
-function Session({ finalInfos, setFinalInfos }) {
+function Session({ finalInfos, setFinalInfos, sessions }) {
   const { idSessao } = useParams();
   const [seats, setSeats] = useState([]);
 
@@ -34,6 +35,7 @@ function Session({ finalInfos, setFinalInfos }) {
     const fetchSession = async () => {
       try {
         const sessionInfo = await axios(URL, { signal });
+        console.log(sessionInfo);
         setSeats(sessionInfo.data.seats);
         setFinalInfos(() => {
           const { data } = sessionInfo;
@@ -42,6 +44,7 @@ function Session({ finalInfos, setFinalInfos }) {
           return ({
             movie: movie.title,
             date: day.date,
+            weekday: day.weekday,
             time: name,
             seats: [],
             client: '',
@@ -71,13 +74,16 @@ function Session({ finalInfos, setFinalInfos }) {
           <StyledSeat
             key={id}
             color={String(finalInfos.seats.some((infos) => infos[0] === id))}
-            disabled={!isAvailable}
-            onClick={() => setFinalInfos((prevState) => (
-              {
-                ...prevState,
-                seats: [...prevState.seats, [id, name]],
-              }
-            ))}
+            avaliable={isAvailable}
+            onClick={() => {
+              if (!isAvailable) alert('Esse assento não está disponível');
+              setFinalInfos((prevState) => (
+                {
+                  ...prevState,
+                  seats: [...prevState.seats, [id, name]],
+                }
+              ));
+            }}
           >
             {name.length > 1 ? name : `0${name}`}
           </StyledSeat>
@@ -109,6 +115,12 @@ function Session({ finalInfos, setFinalInfos }) {
           Reservar assento(s)
         </Link>
       </StyledButton>
+      <Footer
+        title={sessions?.title}
+        url={sessions?.posterURL}
+        finalInfos={finalInfos}
+        setFinalInfos={setFinalInfos}
+      />
     </StyledSession>
   );
 }
@@ -120,6 +132,7 @@ const StyledButton = styled.button`
   padding: 15px 10px 15px 10px;
   font-size: 18px;
   margin-top: 40px;
+  margin-bottom: 40px;
   border-radius: 5px;
   border: none;
   background-color:  #E8833A;
@@ -192,8 +205,8 @@ const StyledSeats = styled.div`
 `;
 
 const StyledSeat = styled.button`
-  background-color: ${({ color, disabled }) => {
-    if (disabled) return '#fbe192';
+  background-color: ${({ color, avaliable }) => {
+    if (!avaliable) return '#fbe192';
     if (color === 'true') return '#1aae9e';
     return '#c3cfd9';
   }};
@@ -223,6 +236,14 @@ const StyledSession = styled.div`
 
 Session.propTypes = {
   finalInfos: PropTypes.shape(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+  ).isRequired,
+  sessions: PropTypes.shape(
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,

@@ -3,10 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Footer from './Footer';
 
-function Sessions() {
+function Sessions({
+  finalInfos, setFinalInfos, sessions, setSessions,
+}) {
   const idInfo = useParams();
-  const [sessions, setSessions] = useState(null);
+
+  useEffect(() => console.log(sessions), [sessions]);
 
   useEffect(() => {
     const URL = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idInfo.idFilme}/showtimes`;
@@ -17,7 +22,6 @@ function Sessions() {
       try {
         const sessionsInfo = await axios.get(URL, signal);
         setSessions(sessionsInfo.data);
-        console.log(sessions);
       } catch (error) {
         alert(error.message);
         throw new Error(error);
@@ -64,6 +68,12 @@ function Sessions() {
           </StyledTime>
         </StyledSession>
       ))}
+      <Footer
+        title={sessions?.title}
+        url={sessions?.posterURL}
+        setFinalInfos={setFinalInfos}
+        finalInfos={finalInfos}
+      />
     </StyledSessions>
   );
 }
@@ -102,5 +112,26 @@ const StyledTime = styled.div`
   padding: 10px;
   display: flex;
 `;
+
+Sessions.propTypes = {
+  finalInfos: PropTypes.shape(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+  ).isRequired,
+  sessions: PropTypes.shape(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+  ).isRequired,
+  setSessions: PropTypes.func.isRequired,
+  setFinalInfos: PropTypes.func.isRequired,
+};
 
 export default Sessions;

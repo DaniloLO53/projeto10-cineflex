@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
@@ -7,14 +7,18 @@ import Sessions from './Sessions';
 import Success from './Success';
 
 function App() {
-  const [finalInfos, setFinalInfos] = useState({
+  const [finalInfos, setFinalInfos] = useState(null);
+  const [sessions, setSessions] = useState(null);
+
+  useEffect(() => setFinalInfos({
     movie: '',
     date: '',
     time: '',
     seats: [],
     client: '',
     cpf: '',
-  });
+    weekday: '',
+  }), []);
 
   return (
     <StyledAppContainer>
@@ -23,12 +27,27 @@ function App() {
       </StyledHeader>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sessoes/:idFilme" element={<Sessions />} />
+        <Route
+          path="/sessoes/:idFilme"
+          element={(
+            <Sessions
+              finalInfos={finalInfos}
+              sessions={sessions}
+              setSessions={setSessions}
+              setFinalInfos={setFinalInfos}
+            />
+          )}
+        />
         <Route
           path="/assentos/:idSessao"
-          element={
-            <Session finalInfos={finalInfos} setFinalInfos={setFinalInfos} />
-          }
+          element={(
+            <Session
+              finalInfos={finalInfos}
+              setFinalInfos={setFinalInfos}
+              sessions={sessions}
+              setSessions={setSessions}
+            />
+          )}
         />
         <Route
           path="/sucesso"

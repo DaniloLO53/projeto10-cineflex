@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,16 @@ function Success({ finalInfos, setFinalInfos }) {
   const {
     movie, date, time, seats, client, cpf,
   } = finalInfos;
+
+  useEffect(() => () => setFinalInfos({
+    movie: '',
+    date: '',
+    time: '',
+    seats: [],
+    client: '',
+    cpf: '',
+    weekday: '',
+  }));
 
   return (
     <StyledSuccess>
@@ -70,7 +80,7 @@ const StyledSuccess = styled.div`
   & h1 {
     /* background-color: red; */
     text-align: center;
-    padding: 10px 150px 10px 150px;
+    padding: 10px 130px 10px 130px;
     color: green;
   }
 
