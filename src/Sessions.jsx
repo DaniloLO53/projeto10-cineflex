@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -23,14 +23,12 @@ function Sessions({
         const sessionsInfo = await axios.get(URL, signal);
         setSessions(sessionsInfo.data);
       } catch (error) {
-        alert(error.message);
         throw new Error(error);
       }
     };
     fetchSessions();
 
     return () => {
-      console.log('clean');
       controller.abort();
     };
   }, []);
@@ -46,8 +44,8 @@ function Sessions({
         date,
         showtimes,
       }) => (
-        <StyledSession key={id}>
-          <StyledDate>
+        <StyledSession data-test="movie-day">
+          <StyledDate key={id}>
             {weekday}
             {' '}
             -
@@ -60,6 +58,7 @@ function Sessions({
                 <StyledTimeButton
                   type="button"
                   key={idTime}
+                  data-test="showtime"
                 >
                   {name}
                 </StyledTimeButton>
@@ -96,18 +95,15 @@ const StyledSessions = styled.div`
 `;
 
 const StyledSession = styled.div`
-  /* background-color: green; */
   width: 100%;
 `;
 
 const StyledDate = styled.div`
-  /* background-color: purple; */
   width: 100%;
   padding: 15px;
 `;
 
 const StyledTime = styled.div`
-  /* background-color: yellow; */
   width: 100%;
   padding: 10px;
   display: flex;
@@ -122,14 +118,24 @@ Sessions.propTypes = {
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
   ).isRequired,
+
   sessions: PropTypes.shape(
+    PropTypes.number.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
-    PropTypes.array.isRequired,
     PropTypes.string.isRequired,
-    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.shape(
+      PropTypes.number.isRequired,
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired,
+      PropTypes.arrayOf(PropTypes.shape(
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired,
+      )).isRequired,
+    )).isRequired,
   ).isRequired,
+
   setSessions: PropTypes.func.isRequired,
   setFinalInfos: PropTypes.func.isRequired,
 };

@@ -14,17 +14,14 @@ function Home() {
     const fetchMovies = async () => {
       try {
         const { data } = await axios.get(URL, { signal });
-        console.log(data);
         setMovies(data);
       } catch (error) {
-        alert(error.message);
         throw new Error(error);
       }
     };
     fetchMovies();
 
     return () => {
-      console.log('clean');
       controller.abort();
     };
   }, []);
@@ -35,6 +32,7 @@ function Home() {
         <StyledButton
           key={id}
           type="button"
+          data-test="movie"
         >
           <Link to={`/sessoes/${id}`}>
             <figure>
@@ -48,7 +46,6 @@ function Home() {
 }
 
 const StyledMovies = styled.div`
-  /* background-color: red; */
   max-width: 100vw;
   display: flex;
   flex-wrap: wrap;

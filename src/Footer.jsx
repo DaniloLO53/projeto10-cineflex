@@ -5,10 +5,8 @@ import styled from 'styled-components';
 function Footer({
   finalInfos, url, title,
 }) {
-  console.log(finalInfos);
-
   return (
-    <StyledFooter>
+    <StyledFooter data-test="footer">
       <figure>
         <img src={url} alt="poster" />
       </figure>
@@ -30,14 +28,12 @@ const StyledFooter = styled.div`
   background-color: #9eadba;
   display: flex;
   align-items: center;
-  /* position: fixed; */
   bottom: 0;
   width: 100%;
   font-size: 30px;
   margin-top: 120px;
 
   & div {
-    /* background-color: red; */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -63,6 +59,7 @@ Footer.propTypes = {
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
   ).isRequired,

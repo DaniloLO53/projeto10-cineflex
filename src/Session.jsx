@@ -35,7 +35,6 @@ function Session({ finalInfos, setFinalInfos, sessions }) {
     const fetchSession = async () => {
       try {
         const sessionInfo = await axios(URL, { signal });
-        console.log(sessionInfo);
         setSeats(sessionInfo.data.seats);
         setFinalInfos(() => {
           const { data } = sessionInfo;
@@ -52,26 +51,23 @@ function Session({ finalInfos, setFinalInfos, sessions }) {
           });
         });
       } catch (error) {
-        console.log(error.message);
         throw new Error(error);
       }
     };
     fetchSession();
 
     return () => {
-      console.log('Clean');
       controller.abort();
     };
   }, []);
 
-  console.log(finalInfos, seats);
-
   return (
     <StyledSession>
       <p>Selecione o(s) assentos</p>
-      <StyledSeats>
+      <div>
         {seats.map(({ id, name, isAvailable }) => (
           <StyledSeat
+            data-test="seat"
             key={id}
             color={String(finalInfos.seats.some((infos) => infos[0] === id))}
             avaliable={isAvailable}
@@ -88,7 +84,7 @@ function Session({ finalInfos, setFinalInfos, sessions }) {
             {name.length > 1 ? name : `0${name}`}
           </StyledSeat>
         ))}
-      </StyledSeats>
+      </div>
       <StyledSubs>
         <div>
           <span name="selected" />
@@ -110,6 +106,7 @@ function Session({ finalInfos, setFinalInfos, sessions }) {
       <StyledButton
         type="button"
         onClick={handleClick}
+        data-test="book-seat-btn"
       >
         <Link to="/sucesso">
           Reservar assento(s)
@@ -151,14 +148,12 @@ const StyledButton = styled.button`
 `;
 
 const StyledSubs = styled.div`
-  background-color: red;
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-top: 30px;
 
   & div {
-    background-color: purple;
     width: 33%;
     height: 100%;
     position: relative;
@@ -198,12 +193,6 @@ const StyledSubs = styled.div`
   }
 `;
 
-const StyledSeats = styled.div`
-  /* background-color: red; */
-
-    
-`;
-
 const StyledSeat = styled.button`
   background-color: ${({ color, avaliable }) => {
     if (!avaliable) return '#fbe192';
@@ -218,14 +207,12 @@ const StyledSeat = styled.button`
 `;
 
 const StyledSession = styled.div`
-  /* background-color: red; */
   padding: 10px;
   text-align: center;
   position: relative;
   
   & > p, & div > p {
     font-size: 24px;
-    /* background-color: yellow; */
     margin: 30px 0 30px 0;
   }
 

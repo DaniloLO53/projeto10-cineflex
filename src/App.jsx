@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
@@ -7,10 +7,7 @@ import Sessions from './Sessions';
 import Success from './Success';
 
 function App() {
-  const [finalInfos, setFinalInfos] = useState(null);
-  const [sessions, setSessions] = useState(null);
-
-  useEffect(() => setFinalInfos({
+  const [finalInfos, setFinalInfos] = useState({
     movie: '',
     date: '',
     time: '',
@@ -18,7 +15,17 @@ function App() {
     client: '',
     cpf: '',
     weekday: '',
-  }), []);
+  });
+  const [sessions, setSessions] = useState({
+    id: 0,
+    title: '',
+    posterURL: '',
+    overview: '',
+    releaseDate: '',
+    days: [{
+      id: 0, weekday: '', date: '', showtimes: [{ name: '', id: 0 }],
+    }],
+  });
 
   return (
     <StyledAppContainer>
@@ -45,7 +52,6 @@ function App() {
               finalInfos={finalInfos}
               setFinalInfos={setFinalInfos}
               sessions={sessions}
-              setSessions={setSessions}
             />
           )}
         />

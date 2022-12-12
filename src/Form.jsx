@@ -10,6 +10,7 @@ function Form({ finalInfos, setFinalInfos }) {
       <p>Nome do comprador:</p>
       <input
         id="name"
+        data-test="client-name"
         name="client"
         placeholder="Digite seu nome..."
         value={finalInfos.client}
@@ -23,6 +24,7 @@ function Form({ finalInfos, setFinalInfos }) {
       <p>CPF do comprador:</p>
       <input
         id="cpf"
+        data-test="client-cpf"
         name="cpf"
         placeholder="Digite seu CPF..."
         value={finalInfos.cpf}

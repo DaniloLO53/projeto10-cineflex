@@ -22,7 +22,7 @@ function Success({ finalInfos, setFinalInfos }) {
   return (
     <StyledSuccess>
       <h1>Pedido feito com sucesso!</h1>
-      <div>
+      <div data-test="movie-info">
         <h3>Filme e sessão</h3>
         <p>{movie}</p>
         <p>
@@ -33,7 +33,7 @@ function Success({ finalInfos, setFinalInfos }) {
         </p>
       </div>
 
-      <div>
+      <div data-test="seats-info">
         <h3>Ingressos</h3>
         {seats.map((info) => (
           <p key={info[0]}>
@@ -45,7 +45,7 @@ function Success({ finalInfos, setFinalInfos }) {
         ))}
       </div>
 
-      <div>
+      <div data-test="client-info">
         <h3>Comprador</h3>
         <p>
           Nome:
@@ -63,6 +63,7 @@ function Success({ finalInfos, setFinalInfos }) {
 
       <StyledButton
         type="button"
+        data-test="go-home-btn"
       >
         <Link to="/">
           Voltar para Home
@@ -78,14 +79,12 @@ const StyledSuccess = styled.div`
   flex-direction: column;
 
   & h1 {
-    /* background-color: red; */
     text-align: center;
     padding: 10px 130px 10px 130px;
     color: green;
   }
 
   & div {
-    /* background-color: green; */
     padding: 15px;
     font-size: 20px;
   }
@@ -121,6 +120,7 @@ Success.propTypes = {
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
   ).isRequired,
